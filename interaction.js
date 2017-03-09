@@ -1,7 +1,7 @@
 var pic = document.getElementById("vimage")
 var clear = document.getElementById("clear")
 var move = document.getElementById("move")
-var total = pic.childNodes.length
+var total = pic.childNodes.length - 1
 
 var createDot = function() {
     var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -15,6 +15,8 @@ var createDot = function() {
     c.setAttribute("stroke", "black");
     pic.appendChild(c);
     console.log(c.getAttribute("cx"));
+    total++;
+    //c.addEventListener("click", changeColor);
 };
 
 pic.addEventListener("click", createDot);
@@ -28,9 +30,9 @@ var clearStuff = function() {
 clear.addEventListener("click", clearStuff);
 
 var moveCircles = function() {
-    console.log(total)
     //while (total > 0){
-	//console.log(total)
+	console.log(total)
+    //}
 };
 
 move.addEventListener("click", moveCircles);
