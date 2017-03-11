@@ -1,7 +1,6 @@
 var pic = document.getElementById("vimage")
 var clear = document.getElementById("clear")
 var move = document.getElementById("move")
-var total = pic.childNodes.length - 1
 var intervalID
 
 //invisible barrier line from (0,250) to (500,250)
@@ -22,7 +21,6 @@ var createDot = function(xcor,ycor) {
     c.setAttribute("xmove", 1);
     c.setAttribute("ymove", 1);
     pic.appendChild(c);
-    total++;
 
     c.addEventListener("click", function(event){
 	event.stopPropagation();
@@ -40,6 +38,8 @@ var createDot = function(xcor,ycor) {
 	    c.setAttribute("fill", "green");
 	}
     });
+
+    return c;
     
 };
 
@@ -61,7 +61,7 @@ var moveCircles = function() {
     clearInterval(intervalID);
     var count = 0;
     var c;
-    while (count < total){
+    while (count < pic.childNodes.length-1){
 	c = pic.children[count];
 
 	//see if the circle hit a wall, if so change its direction
@@ -90,7 +90,18 @@ var moveCircles = function() {
 	}
 
 	//if a circle passed the line (x,250)
+	if ((Math.abs(c.getAttribute("cy") - 250) >= 0) && (Math.abs(c.getAttribute("cy") - 250) <= 1)){
+	    c.setAttribute("r", c.getAttribute("r")/2);
+	    var newCircle = createDot(c.getAttribute("cx"), c.getAttribute("cy"));
+	    newCircle.setAttribute("xmove", c.getAttribute("xmove") * -1);
+	    newCircle.setAttribute("ymove", c.getAttribute("ymove") * -1);
+	    newCircle.setAttribute("r", c.getAttribute("r"));
+	}
 
+	if (c.getAttribute("r") <= 2){
+	    pic.removeChild(c);
+	}
+	
 	count++;
     };
     intervalID = window.setInterval(moveCircles,10);
